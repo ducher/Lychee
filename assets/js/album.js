@@ -338,6 +338,56 @@ album = {
 
 		location.href = link;
 
+	},
+
+	generateSmall: function(albumIDs) {
+
+		var params,
+			buttons,
+			albumTitle;
+
+		if (!albumIDs) return false;
+		if (albumIDs instanceof Array===false) albumIDs = [albumIDs];
+
+		buttons = [
+			["", function() {
+
+				params = "generateSmallAlbum&albumIDs=" + albumIDs;
+				lychee.api(params, function(data) {
+
+					if (data!==true) lychee.error(null, params, data);
+
+				});
+
+			}],
+			["", function() {}]
+		];
+
+		if (albumIDs.toString()==="0") {
+
+			buttons[0][0] = "Generate Small Pictures";
+			buttons[1][0] = "Do Nothing";
+
+			modal.show("Generate Unsorted Small Picutres", "Are you sure you want to generate all photos from 'Unsorted'?<br>This can take a long time!", buttons);
+
+		} else if (albumIDs.length===1) {
+
+			buttons[0][0] = "Generate Small Pictures";
+			buttons[1][0] = "Do Nothing";
+			// Get title
+			if (album.json) albumTitle = album.json.title;
+			else if (albums.json) albumTitle = albums.json.content[albumIDs].title;
+
+			modal.show("Generate Album Small Pictures", "Are you sure you want to generate the small versions of the album '" + albumTitle + "'\'s pictures? This may take some time!", buttons);
+
+		} else {
+
+			buttons[0][0] = "Generate Small Pictures";
+			buttons[1][0] = "Do Nothing";
+
+			modal.show("Generate Small Versions", "Are you sure you want to generate all " + albumIDs.length + " selected albums? This may take some time!", buttons);
+		}
+
 	}
 
 };

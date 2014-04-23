@@ -86,6 +86,7 @@ contextMenu = {
 			function() { settings.setLogin() },
 			function() { settings.setSorting() },
 			function() { settings.setDropboxKey() },
+			function() { settings.setUseSmall() },
 			function() { window.open(lychee.website, "_newtab"); },
 			function() { window.open("plugins/check.php", "_newtab"); },
 			function() { lychee.logout() }
@@ -95,11 +96,12 @@ contextMenu = {
 			["<a class='icon-user'></a> Change Login", 0],
 			["<a class='icon-sort'></a> Change Sorting", 1],
 			["<a class='icon-folder-open'></a> Set Dropbox", 2],
+			["<a class='icon-picture'></a> Use Small Pictures", 3],
 			["separator", -1],
-			["<a class='icon-info-sign'></a> About Lychee", 3],
-			["<a class='icon-dashboard'></a> Diagnostics", 4],
+			["<a class='icon-info-sign'></a> About Lychee", 4],
+			["<a class='icon-dashboard'></a> Diagnostics", 5],
 			["separator", -1],
-			["<a class='icon-signout'></a> Sign Out", 5]
+			["<a class='icon-signout'></a> Sign Out", 6]
 		];
 
 		contextMenu.show(items, mouse_x, mouse_y, "right");
@@ -141,11 +143,13 @@ contextMenu = {
 		contextMenu.fns = [
 			function() { album.setTitle(albumIDs) },
 			function() { album.delete(albumIDs) },
+			function() { album.generateSmall(albumIDs)}
 		];
 
 		items = [
 			["<a class='icon-edit'></a> Rename All", 0],
-			["<a class='icon-trash'></a> Delete All", 1]
+			["<a class='icon-trash'></a> Delete All", 1],
+			["<a class='icon-cogs'></a> Generate Small All", 2]
 		];
 
 		contextMenu.show(items, mouse_x, mouse_y, "right");

@@ -39,6 +39,7 @@ $(document).ready(function(){
 	$("#button_info").on(event_name, function() { view.infobox.show() });
 	$("#button_archive").on(event_name, function() { album.getArchive(album.getID()) });
 	$("#button_star").on(event_name, function() { photo.setStar([photo.getID()]) });
+	$("#button_generate_small_album").on(event_name, function() { album.generateSmall([album.getID()]) });
 
 	/* Search */
 	$("#search").on("keyup click", function() { search.find($(this).val()) });

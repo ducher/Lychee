@@ -16,6 +16,8 @@ var lychee = {
 
 	upload_path_thumb: "uploads/thumb/",
 	upload_path_big: "uploads/big/",
+	// will be changed to "small" if useSmall is true in the settings
+	upload_path_small: "uploads/big/",
 
 	publicMode: false,
 	viewMode: false,
@@ -24,6 +26,7 @@ var lychee = {
 	username: "",
 	checkForUpdates: false,
 	sorting: "",
+	useSmall: false,
 
 	dropbox: false,
 	dropboxKey: '',
@@ -56,6 +59,12 @@ var lychee = {
 				$("body").append(build.no_content("cog"));
 				settings.createConfig();
 				return true;
+			}
+
+
+			lychee.useSmall = (data.config.useSmall === 'true') || false;
+			if(lychee.useSmall) {
+				lychee.upload_path_small = "uploads/small/";
 			}
 
 			// No login

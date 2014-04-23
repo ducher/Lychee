@@ -270,6 +270,39 @@ var settings = {
 
 		modal.show("Set Dropbox Key", "In order to import photos from your Dropbox, you need a valid drop-ins app key from <a href='https://www.dropbox.com/developers/apps/create'>their website</a>. Generate yourself a personal key and enter it below: <input id='key' class='text' type='text' placeholder='Dropbox API Key' value='" + lychee.dropboxKey + "'>", buttons);
 
+	},
+
+	setUseSmall: function(callback) {
+
+		var buttons,
+			params,
+			key;
+
+		buttons = [
+			["Set useSmall", function() {
+
+				useSmall = $("#useSmall:checked").is(':checked');
+
+				params = "setUseSmall&useSmall=" + useSmall;
+				lychee.api(params, function(data) {
+
+					if (data===true) {
+						lychee.useSmall = useSmall;
+					} else lychee.error(null, params, data);
+
+				});
+
+			}],
+			["Cancel", function() {}]
+		];
+		var checkedString;
+		if(lychee.useSmall) {
+			checkedString = 'checked';
+		} else {
+			checkedString = '';
+		}
+		modal.show("Use smaller pictures", "If you want to use smaller resized pictures when displaying them instead of the full-res version, check this box: <input id='useSmall' class='checkbox' type='checkbox' value='useSmall' "+ checkedString +" > <br> Please reaload the site for the setting to be effective.", buttons);
+
 	}
 
 };

@@ -292,6 +292,32 @@ function getAlbumArchive($albumID) {
 
 }
 
+function generateSmallAlbum($albumIDs) {
+	global $database;
+
+	switch($albumIDs) {
+		case 's':
+			$query = "SELECT url FROM lychee_photos WHERE public = '1';";
+			break;
+		case 'f':
+			$query = "SELECT url FROM lychee_photos WHERE star = '1';";
+			break;
+		default:
+			$query = "SELECT url FROM lychee_photos WHERE album IN ($albumIDs);";
+			break;
+	}
+	$result	= $database->query($query);
+	$i		= 0;	
+
+	while($row = $result->fetch_object()) {
+		createSmall($row->url);
+		$i++;
+	}
+
+	return true;
+
+}
+
 function setAlbumPublic($albumID, $password) {
 
 	global $database;

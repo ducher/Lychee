@@ -100,9 +100,11 @@ function dbCreateTables($database) {
 			('username',''),
 			('password',''),
 			('thumbQuality','90'),
+			('smallQuality','80'),
 			('checkForUpdates','1'),
 			('sorting','ORDER BY id DESC'),
-			('dropboxKey','');
+			('dropboxKey',''),
+			('createSmall','false');
 
 		";
 

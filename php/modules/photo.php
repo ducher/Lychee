@@ -142,6 +142,9 @@ function deletePhoto($photoIDs) {
 
 		// Delete files
 		if (!unlink('../uploads/big/' . $row->url))			return false;
+		if(file_exists('../uploads/small/' . $row->url))
+			// small version does not necessarily exist
+			if (!unlink('../uploads/small/' . $row->url))			return false;
 		if (!unlink('../uploads/thumb/' . $row->thumbUrl))	return false;
 		if (!unlink('../uploads/thumb/' . $thumbUrl2x))		return false;
 

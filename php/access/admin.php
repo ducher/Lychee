@@ -45,6 +45,10 @@ switch ($_POST['function']) {
 									echo deleteAlbum($_POST['albumIDs']);
 								break;
 
+	case 'generateSmallAlbum':			if (isset($_POST['albumIDs']))
+									echo generateSmallAlbum($_POST['albumIDs']);
+								break;							
+
 	// Photo Functions
 
 	case 'getPhoto':			if (isset($_POST['photoID'], $_POST['albumID']))
@@ -124,6 +128,10 @@ switch ($_POST['function']) {
 
 	case 'setDropboxKey':	if (isset($_POST['key']))
 								echo setDropboxKey($_POST['key']);
+							break;
+
+	case 'setUseSmall':	if (isset($_POST['useSmall']))
+								echo setUseSmall($_POST['useSmall']);
 							break;
 
 	// Miscellaneous

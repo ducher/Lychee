@@ -79,6 +79,19 @@ function setDropboxKey($key) {
 
 }
 
+function setUseSmall($useSmall) {
+
+	global $database;
+
+	//if ($useSmall != "true" || $useSmall != "false") return false;
+
+	$result = $database->query("UPDATE lychee_settings SET value = '$useSmall' WHERE `key` = 'useSmall';");
+
+	if (!$result) return false;
+	return true;
+
+}
+
 function setSorting($type, $order) {
 
 	global $database;

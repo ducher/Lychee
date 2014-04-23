@@ -126,6 +126,11 @@ function upload($files, $albumID) {
 		// Create Thumb
 		if (!createThumb($photo_name)) return false;
 
+		if ($settings['useSmall'] == 'true') {
+			// Create Small version
+			if (!createSmall($photo_name)) return false;
+		}
+
 		// Save to DB
 		$query = "INSERT INTO lychee_photos (id, title, url, description, type, width, height, size, sysdate, systime, iso, aperture, make, model, shutter, focal, takedate, taketime, thumbUrl, album, public, star, import_name)
 			VALUES (
@@ -294,11 +299,52 @@ function createThumb($filename, $width = 200, $height = 200) {
 		default: return false;
 	}
 
-	imagecopyresampled($thumb,$sourceImg,0,0,$startWidth,$startHeight,$width,$height,$newSize,$newSize);
-	imagecopyresampled($thumb2x,$sourceImg,0,0,$startWidth,$startHeight,$width*2,$height*2,$newSize,$newSize);
+	fastimagecopyresampled($thumb,$sourceImg,0,0,$startWidth,$startHeight,$width,$height,$newSize,$newSize);
+	fastimagecopyresampled($thumb2x,$sourceImg,0,0,$startWidth,$startHeight,$width*2,$height*2,$newSize,$newSize);
 
 	imagejpeg($thumb,$newUrl,$settings['thumbQuality']);
 	imagejpeg($thumb2x,$newUrl2x,$settings['thumbQuality']);
+
+	return true;
+
+}
+
+function createSmall($filename, $maxWidth = 2048, $maxHeight = 1536) {
+
+	global $settings;
+
+	$url	= "../uploads/big/$filename";
+	$info	= getimagesize($url);
+
+	// When the big version is already small enough
+	if($info[0] <= $maxWidth || $info[1] <= $maxHeight) return true;
+
+	$photoName	= explode(".", $filename);
+	$newUrl		= "../uploads/small/$photoName[0].JPG";
+
+	// Computing new dimensions
+	$percent = $maxWidth / $info[0];  
+	$width = $info[0]*$percent;
+	$height = $info[1]*$percent;
+
+	// Set position and size
+	$small = imagecreatetruecolor($width, $height);
+
+	// Fallback for older version
+	if ($info['mime']==='image/webp'&&floatval(phpversion())<5.5) return false;
+
+	// Create new image
+	switch($info['mime']) {
+		case 'image/jpeg':	$sourceImg = imagecreatefromjpeg($url); break;
+		case 'image/png':	$sourceImg = imagecreatefrompng($url); break;
+		case 'image/gif':	$sourceImg = imagecreatefromgif($url); break;
+		case 'image/webp':	$sourceImg = imagecreatefromwebp($url); break;
+		default: return false;
+	}
+
+	fastimagecopyresampled($small,$sourceImg,0,0,0,0,$width,$height,$info[0],$info[1]);
+
+	imagejpeg($small,$newUrl,$settings['smallQuality']);
 
 	return true;
 
