@@ -319,8 +319,7 @@ function createSmall($filename, $maxWidth = 2048, $maxHeight = 1536) {
 	// When the big version is already small enough
 	if($info[0] <= $maxWidth || $info[1] <= $maxHeight) return true;
 
-	$photoName	= explode(".", $filename);
-	$newUrl		= "../uploads/small/$photoName[0].JPG";
+	$newUrl		= "../uploads/small/" . $filename;
 
 	// Computing new dimensions
 	$percent = $maxWidth / $info[0];  
